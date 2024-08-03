@@ -1,0 +1,26 @@
+FROM ubuntu
+
+RUN ARCH=$(uname -m) &&\
+    apt-get update &&\
+    apt-get upgrade -y &&\
+    apt-get install -y wget gcc g++ make &&\
+    mkdir /temp &&\
+    wget -P /temp https://github.com/Kitware/CMake/releases/download/v3.29.7/cmake-3.29.7-linux-x86_64.sh &&\
+    chmod +x /temp/cmake-3.29.7-linux-x86_64.sh &&\
+    /temp/cmake-3.29.7-linux-x86_64.sh --skip-license --prefix=/usr/local
+
+RUN wget -P /temp https://github.com/google/googletest/archive/refs/tags/v1.15.2.tar.gz &&\
+    tar -xzf /temp/v1.15.2.tar.gz -C /temp
+
+RUN cd /temp/googletest-1.15.2 &&\
+    cmake -S . -B ./build &&\
+    cd ./build &&\
+    make &&\
+    make install
+
+VOLUME [ "/data" ]
+
+CMD tail -f /dev/null
+
+# apt-get autoremove -y &&\
+# apt-get clean &&\

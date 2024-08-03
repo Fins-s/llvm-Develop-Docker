@@ -1,0 +1,1 @@
+docker run -v D:\Work\F:/data developdocker:latest
