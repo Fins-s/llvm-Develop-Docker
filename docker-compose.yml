@@ -1,0 +1,18 @@
+---
+services:
+  code-server:
+    image: c-develop-docker:latest
+    container_name: c-develop
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=123456
+      - SUDO_PASSWORD=123456
+      - DEFAULT_WORKSPACE=/workspace
+    volumes:
+      - D:\\Docker\\c-develop:/config
+      - D:\\WorkSpace:/workspace
+    ports:
+      - 8443:8443
+    restart: unless-stopped

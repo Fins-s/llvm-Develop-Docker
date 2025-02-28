@@ -1,26 +1,31 @@
-FROM ubuntu
+FROM linuxserver/code-server
+
+ARG CMKAE_VERSION=3.29.7
+ARG GTEST_VERSION=1.15.2
 
 RUN ARCH=$(uname -m) &&\
     apt-get update &&\
     apt-get upgrade -y &&\
-    apt-get install -y wget gcc g++ make &&\
+    # gcc wget g++ make python3 pip
+    apt-get install -y wget gcc g++ make git python3 python3-pip &&\
     mkdir /temp &&\
-    wget -P /temp https://github.com/Kitware/CMake/releases/download/v3.29.7/cmake-3.29.7-linux-x86_64.sh &&\
-    chmod +x /temp/cmake-3.29.7-linux-x86_64.sh &&\
-    /temp/cmake-3.29.7-linux-x86_64.sh --skip-license --prefix=/usr/local
-
-RUN wget -P /temp https://github.com/google/googletest/archive/refs/tags/v1.15.2.tar.gz &&\
-    tar -xzf /temp/v1.15.2.tar.gz -C /temp
-
-RUN cd /temp/googletest-1.15.2 &&\
+    # install cmake
+    wget -P /temp https://github.com/Kitware/CMake/releases/download/v${CMKAE_VERSION}/cmake-${CMKAE_VERSION}-linux-x86_64.sh &&\
+    chmod +x /temp/cmake-${CMKAE_VERSION}-linux-x86_64.sh &&\
+    /temp/cmake-${CMKAE_VERSION}-linux-x86_64.sh --skip-license --prefix=/usr/local &&\
+    # install gtest
+    wget -P /temp https://github.com/google/googletest/archive/refs/tags/v${GTEST_VERSION}.tar.gz &&\
+    tar -xzf /temp/v${GTEST_VERSION}.tar.gz -C /temp &&\
+    cd /temp/googletest-${GTEST_VERSION} &&\
     cmake -S . -B ./build &&\
     cd ./build &&\
     make &&\
-    make install
-
-VOLUME [ "/data" ]
-
-CMD tail -f /dev/null
+    make install &&\
+    # clean
+    rm -rf /temp &&\
+    apt-get clean
 
 # apt-get autoremove -y &&\
-# apt-get clean &&\
+
+# build: docker build -t c-develop-docker:latest .
+# deploy: docker-compose up -d
