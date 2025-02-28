@@ -1,7 +1,7 @@
 ---
 services:
   code-server:
-    image: c-develop-docker:latest
+    image: finsss/c-develop-docker:latest
     container_name: c-develop
     environment:
       - PUID=1000
