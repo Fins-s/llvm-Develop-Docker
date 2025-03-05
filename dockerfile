@@ -7,7 +7,7 @@ RUN ARCH=$(uname -m) &&\
     apt-get update &&\
     apt-get upgrade -y &&\
     # gcc wget g++ make python3 pip
-    apt-get install -y wget gcc g++ gdb make git python3 python3-pip &&\
+    apt-get install -y wget gcc g++ gdb make git python3 python3-pip llvm &&\
     mkdir /temp &&\
     # install cmake
     wget -P /temp https://github.com/Kitware/CMake/releases/download/v${CMKAE_VERSION}/cmake-${CMKAE_VERSION}-linux-x86_64.sh &&\
@@ -27,6 +27,6 @@ RUN ARCH=$(uname -m) &&\
 
 # apt-get autoremove -y &&\
 
-# build: docker build -t finsss/c-develop-docker:latest .
+# build: docker build -t finsss/llvm-develop-docker:latest .
 # deploy: docker-compose up -d
-# push: docker push finsss/c-develop-docker:latest 
+# push: docker push finsss/llvm-develop-docker:latest 

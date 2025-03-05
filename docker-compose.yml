@@ -1,8 +1,8 @@
 ---
 services:
   code-server:
-    image: finsss/c-develop-docker:latest
-    container_name: c-develop
+    image: finsss/llvm-develop-docker:latest
+    container_name: llvm-develop
     environment:
       - PUID=1000
       - PGID=1000
@@ -11,8 +11,8 @@ services:
       - SUDO_PASSWORD=123456
       - DEFAULT_WORKSPACE=/workspace
     volumes:
-      - D:\\Docker\\c-develop:/config
+      - D:\\Docker\\llvm-develop:/config
       - D:\\WorkSpace:/workspace
     ports:
-      - 8443:8443
+      - 8444:8443
     restart: unless-stopped
